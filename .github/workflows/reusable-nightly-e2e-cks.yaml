@@ -94,12 +94,17 @@ on:
         description: 'HTTPRoute file to apply (empty = skip)'
         required: false
         type: string
-        default: 'httproute.yaml'
+        default: ''
+      gateway_host:
+        description: 'Override GATEWAY_HOST for e2e-validate.sh (e.g. svc-name:port). If empty, auto-discovers from Gateway resource.'
+        required: false
+        type: string
+        default: ''
       install_gateway_provider:
         description: 'Install gateway provider prerequisites'
         required: false
         type: boolean
-        default: true
+        default: false
       pre_deploy_script:
         description: 'Script to run before deployment (e.g. slim transforms)'
         required: false
@@ -703,6 +708,7 @@ jobs:
           kubectl get pods -n "$NAMESPACE"
 
       - name: Wait for gateway to be ready
+        if: inputs.install_gateway_provider
         run: |
           GATEWAY_NAME=$(kubectl get gateway -n "$NAMESPACE" -o jsonpath='{.items[0].metadata.name}' 2>/dev/null || true)
           if [ -n "$GATEWAY_NAME" ]; then
@@ -787,6 +793,8 @@ jobs:
 
       - name: Run E2E validation
         if: "!inputs.deploy_wva"
+        env:
+          GATEWAY_HOST: ${{ inputs.gateway_host }}
         run: |
           echo "Running E2E validation for $GUIDE_NAME on CKS..."
           cd .github/scripts/e2e
