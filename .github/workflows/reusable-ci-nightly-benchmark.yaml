@@ -279,7 +279,7 @@ jobs:
           ./install.sh -y 2>&1
 
           if [[ ! -f util/debug_info_on_failure.sh ]]; then
-            curl -sSL https://raw.githubusercontent.com/llm-d/llm-d-benchmark/refs/heads/main/util/debug_info_on_failure.sh -o /tmp/debug_info_on_failure.sh
+            curl -sSL https://raw.githubusercontent.com/llm-d/llm-d-benchmark/blob/main/util/debug_info_on_failure.sh -o /tmp/debug_info_on_failure.sh
             chmod +x /tmp/debug_info_on_failure.sh
             sudo cp /tmp/debug_info_on_failure.sh /usr/local/bin
           else
@@ -307,6 +307,9 @@ jobs:
 
       - name: Cleanup target cloud
         run: |
+          if [[ -d /llm-d-benchmark ]]; then
+            cd /llm-d-benchmark
+          fi
           echo "### Cluster names: $(cat ~/.kube/config | yq ".clusters[].name" | sed ':a;N;$!ba;s/\n/, /g')"
           LLMDBENCH_CMD="llmdbenchmark --spec $LLMDBENCH_CICD_SCENARIO_DIR/$LLMDBENCH_CICD_SCENARIO $LLMDBENCH_EXTRA_CMD teardown --namespace $LLMDBENCH_CICD_NS --release $LLMDBENCH_CICD_R --methods $LLMDBENCH_CICD_METHOD"
           echo "### $LLMDBENCH_CMD ###"
@@ -316,6 +319,9 @@ jobs:
 
       - name: Standup
         run: |
+          if [[ -d /llm-d-benchmark ]]; then
+            cd /llm-d-benchmark
+          fi
           LLMDBENCH_CMD="llmdbenchmark --spec $LLMDBENCH_CICD_SCENARIO_DIR/$LLMDBENCH_CICD_SCENARIO $LLMDBENCH_EXTRA_CMD standup $LLMDBENCH_EXTRA_OPERATION_CMD --namespace $LLMDBENCH_CICD_NS --gateway-class $LLMDBENCH_GATEWAY_CLASS --release $LLMDBENCH_CICD_R --methods $LLMDBENCH_CICD_METHOD"
           echo "### $LLMDBENCH_CMD ###"
           $LLMDBENCH_CMD
@@ -329,6 +335,9 @@ jobs:
 
       - name: Run
         run: |
+          if [[ -d /llm-d-benchmark ]]; then
+            cd /llm-d-benchmark
+          fi
           if [[ "$LLMDBENCH_CICD_TARGET" == "kind" && "${{ inputs.standup_method }}" == "fma" ]]; then
             echo "Temporarily unable to test \"fma\" on \"kind\" clusters"
           elif [[ "$LLMDBENCH_CICD_TARGET" == "gke" && "${{ inputs.standup_method }}" == "fma" ]]; then
@@ -346,6 +355,9 @@ jobs:
       - name: Teardown
         if: always()
         run: |
+          if [[ -d /llm-d-benchmark ]]; then
+            cd /llm-d-benchmark
+          fi
           LLMDBENCH_CMD="llmdbenchmark --spec $LLMDBENCH_CICD_SCENARIO_DIR/$LLMDBENCH_CICD_SCENARIO $LLMDBENCH_EXTRA_CMD teardown --namespace $LLMDBENCH_CICD_NS --gateway-class $LLMDBENCH_GATEWAY_CLASS --release $LLMDBENCH_CICD_R --methods $LLMDBENCH_CICD_METHOD"
           echo "### $LLMDBENCH_CMD ###"
           $LLMDBENCH_CMD
