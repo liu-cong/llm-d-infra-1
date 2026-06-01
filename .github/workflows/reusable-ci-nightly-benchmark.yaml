@@ -459,7 +459,7 @@ jobs:
             RUN_DATE=$(date +'%Y-%m-%d')
             cd "$LLMDBENCH_WORKSPACE"
             REG_RESULTS=$(find . -name results | sed "s^/results$^^g" | cut -d '/' -f 2)
-            TARGET_DIR=$(echo "gs://${GCS_PATH}/$LLMDBENCH_CICD_SCENARIO/$LLMDBENCH_CICD_TARGET/$LLMDBENCH_CICD_METHOD/$RUN_DATE/" | sed "s^$LLMDBENCH_CICD_SCENARIO/$LLMDBENCH_CICD_SCENARIO^$LLMDBENCH_CICD_SCENARIO^g"
+            TARGET_DIR=$(echo "gs://${GCS_PATH}/$LLMDBENCH_CICD_SCENARIO/$LLMDBENCH_CICD_TARGET/$LLMDBENCH_CICD_METHOD/$RUN_DATE/" | sed "s^$LLMDBENCH_CICD_SCENARIO/$LLMDBENCH_CICD_SCENARIO^$LLMDBENCH_CICD_SCENARIO^g")
             echo "Uploading data from directory \"REG_RESULTS\" to \"$TARGET_DIR\""
             gcloud storage cp -r $REG_RESULTS/ "$TARGET_DIR" || true
           fi
