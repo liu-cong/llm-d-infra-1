@@ -278,7 +278,6 @@ jobs:
             chmod +x install.sh
           fi
           ./install.sh -y 2>&1
-          ls -la ~
           if [[ ! -f util/debug_info_on_failure.sh ]]; then
             curl -sSL https://raw.githubusercontent.com/llm-d/llm-d-benchmark/refs/heads/main/util/debug_info_on_failure.sh -o /tmp/debug_info_on_failure.sh
             chmod +x /tmp/debug_info_on_failure.sh
@@ -320,8 +319,8 @@ jobs:
 
       - name: Standup
         run: |
-          if [[ -d /llm-d-benchmark ]]; then
-            cd /llm-d-benchmark
+          if [[ -d ~/llm-d-benchmark ]]; then
+            cd ~/llm-d-benchmark
           fi
           LLMDBENCH_CMD="llmdbenchmark --spec $LLMDBENCH_CICD_SCENARIO_DIR/$LLMDBENCH_CICD_SCENARIO $LLMDBENCH_EXTRA_CMD standup $LLMDBENCH_EXTRA_OPERATION_CMD --namespace $LLMDBENCH_CICD_NS --gateway-class $LLMDBENCH_GATEWAY_CLASS --release $LLMDBENCH_CICD_R --methods $LLMDBENCH_CICD_METHOD"
           echo "### $LLMDBENCH_CMD ###"
