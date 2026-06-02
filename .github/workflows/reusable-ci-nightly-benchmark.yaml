@@ -315,8 +315,7 @@ jobs:
           cd ~
           if [[ -d ~/work/llm-d-benchmark ]];
           then
-            ln -s ~/work/llm-d-benchmark ~/llm-d-benchmark
-            ln -s ~/work/llm-d-benchmark/install.sh ~/install.sh
+            cd ~/work/llm-d-benchmark
           fi
           if [[ ! -f install.sh ]]; then
             curl -sSL https://raw.githubusercontent.com/llm-d/llm-d-benchmark/main/install.sh -o install.sh
