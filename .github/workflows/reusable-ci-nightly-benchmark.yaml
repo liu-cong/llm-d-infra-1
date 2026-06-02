@@ -315,7 +315,8 @@ jobs:
           if [[ ! -d ~/work/llm-d-benchmark ]];
           then
             ln -s ~/work/llm-d-benchmark ~/llm-d-benchmark
-          fi          
+            ln -s ~/work/llm-d-benchmark/install.sh ~/install.sh
+          fi
           if [[ ! -f install.sh ]]; then
             curl -sSL https://raw.githubusercontent.com/llm-d/llm-d-benchmark/main/install.sh -o install.sh
             chmod +x install.sh
@@ -328,6 +329,8 @@ jobs:
           else
             sudo cp util/debug_info_on_failure.sh /usr/local/bin
           fi
+          cd ~/llm-d-benchmark
+          echo "### llm-d-benchmark code is present (branch $(git branch --show-current))"
         shell: bash
 
       - name: Set up extra command line parameters
@@ -360,8 +363,11 @@ jobs:
           if [[ ! -d ~/work/llm-d ]];
           then
             ln -s ~/work/llm-d ~/llm-d
-            #echo "### llm-d code NOT found, will clone now"
-            #git clone https://github.com/llm-d/llm-d.git
+          fi
+          if [[ ! -d ~/llm-d ]];
+          then
+            echo "### llm-d code NOT found, will clone now"
+            git clone https://github.com/llm-d/llm-d.git
           fi
           cd llm-d
           echo "### llm-d code is present (branch $(git branch --show-current))"
