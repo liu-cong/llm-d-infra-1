@@ -311,7 +311,7 @@ jobs:
 
       - name: Install llmdbenchmark
         run: |
-          #find ~ -type f -name "br_v0_2_json_schema.json" -print
+          find ~ -type f -name "br_v0_2_json_schema.json" -print
           cd ~
           if [[ ! -d ~/work/llm-d-benchmark ]];
           then
