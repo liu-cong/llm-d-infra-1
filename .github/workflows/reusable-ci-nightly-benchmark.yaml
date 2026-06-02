@@ -379,7 +379,7 @@ jobs:
           export LLMDBENCH_CICD_PRIORITY_CLASS=nightly-gpu-critical
           if [[ $LLMDBENCH_CICD_METHOD == "kustomize" ]]; then
             echo "### Overriding \"repoPath\" to \"$HOME/work/llm-d/llm-d\""
-            yq -i ".scenario[0].kustomize.repoPath = \"$HOME/work/llm-d/llmd\"" ~/work/llm-d-benchmark/llm-d-benchmark/config/scenarios/$LLMDBENCH_CICD_SCENARIO_DIR/$LLMDBENCH_CICD_SCENARIO.yaml
+            yq -i ".scenario[0].kustomize.repoPath = \"$HOME/work/llm-d/llm-d\"" ~/work/llm-d-benchmark/llm-d-benchmark/config/scenarios/$LLMDBENCH_CICD_SCENARIO_DIR/$LLMDBENCH_CICD_SCENARIO.yaml
             export INFRA_PROVIDER=base
             if [[ -d ~/work/llm-d/llm-d/$LLMDBENCH_CICD_SCENARIO_DIR/$LLMDBENCH_CICD_SCENARIO/modelserver/$LLMDBENCH_CICD_ACCELERATOR/vllm/$LLMDBENCH_CICD_TARGET ]]
             then
