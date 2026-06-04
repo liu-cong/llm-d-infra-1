@@ -312,6 +312,7 @@ jobs:
 
       - name: Show cluster names
         run: |
+          echo "### Attempting to list cluster names..."
           if [[ -f ~/.kube/config ]]; then 
             echo "### Cluster names (from \"~/.kube/config\") : $(cat ~/.kube/config | yq ".clusters[].name" | sed ':a;N;$!ba;s/\n/, /g')"
           fi
@@ -322,6 +323,7 @@ jobs:
 
       - name: Show cluster nodes
         run: |
+          echo "### Attempting to list node names..."        
           kubectl get node
           exit $?
         shell: bash
@@ -391,7 +393,9 @@ jobs:
         run: |
           export LLMDBENCH_EXTRA_CMD=""
           export LLMDBENCH_EXTRA_OPERATION_CMD=""
-
+          if [[ $LLMDBENCH_CICD_METHOD == "kustomize" ]]; then
+            export LLMDBENCH_EXTRA_CMD="--non-admin"
+          fi
           if [[ "$LLMDBENCH_IS_DRY_RUN" == "true" ]]; then
             export LLMDBENCH_EXTRA_CMD="--dry-run"
           fi
