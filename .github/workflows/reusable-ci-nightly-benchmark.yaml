@@ -305,10 +305,19 @@ jobs:
             fi
           fi
 
+      - name: Install specific yq version
+        uses: frenck/action-setup-yq@v1
+        with:
+          version: 'v4.53.2' 
+
       - name: Show cluster names
         run: |
-          echo "### Cluster names: $(cat ~/.kube/config | yq ".clusters[].name" | sed ':a;N;$!ba;s/\n/, /g')"
-          exit $?
+          if [[ -f ~/.kube/config ]]; then 
+            echo "### Cluster names (from \"~/.kube/config\") : $(cat ~/.kube/config | yq ".clusters[].name" | sed ':a;N;$!ba;s/\n/, /g')"
+          fi
+          if [[ ! -z $KUBECONFIG ]]; then
+            echo "### Cluster names (from \"$KUBECONFIG\") : $(cat $KUBECONFIG | yq ".clusters[].name" | sed ':a;N;$!ba;s/\n/, /g')"
+          fi
         shell: bash
 
       - name: Show cluster nodes
