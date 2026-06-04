@@ -278,12 +278,13 @@ jobs:
           if [[ $LLMDBENCH_CICD_TARGET == "cks" ]]; then
             echo "Selected \"Coreweave\" kubeconfig"
             echo "${{ secrets.KUBECONFIG_DATA_CKS }}" | base64 -d > ~/.kube/config
+            chmod 600 ~/.kube/config
           fi
           if [[ $LLMDBENCH_CICD_TARGET == "ocp" ]]; then
             echo "Selected \"OpenShift\" kubeconfig"
             echo "${{ secrets.KUBECONFIG_DATA_OCP }}" | base64 -d > ~/.kube/config
+            chmod 600 ~/.kube/config
           fi
-          chmod 600 ~/.kube/config
         shell: bash
 
       - name: Install oc (optional on install.sh)
