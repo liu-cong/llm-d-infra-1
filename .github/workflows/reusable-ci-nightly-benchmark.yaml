@@ -706,6 +706,8 @@ jobs:
             if [[ $LLMDBENCH_CICD_SCENARIO == "predicted-latency-routing" ]]; then
               find ~/work/llm-d/llm-d/$LLMDBENCH_CICD_SCENARIO_DIR/optimized-baseline/$LLMDBENCH_CICD_CONNECTOR/modelserver/ -type f -name "kustomization.yaml" -exec sed -i "s/optimized-baseline-/predicted-latency-routing-/g" {} \;
               find ~/work/llm-d/llm-d/$LLMDBENCH_CICD_SCENARIO_DIR/optimized-baseline/$LLMDBENCH_CICD_CONNECTOR/modelserver/ -type f -name "kustomization.yaml" -exec bash -c 'echo -n $1:; yq ".namePrefix" $1' _ {} \;
+              find ~/work/llm-d/llm-d/$LLMDBENCH_CICD_SCENARIO_DIR/optimized-baseline/$LLMDBENCH_CICD_CONNECTOR/modelserver/ -type f -name "patch-vllm.yaml" -exec sed -i "s/optimized-baseline/predicted-latency-routing/g" {} \;
+              find ~/work/llm-d/llm-d/$LLMDBENCH_CICD_SCENARIO_DIR/$LLMDBENCH_CICD_SCENARIO/$LLMDBENCH_CICD_CONNECTOR/router/ -type f -name "*.yaml" -exec sed -i "s/optimized-baseline/predicted-latency-routing/g" {} \;
             fi
             echo " ### Setting priority class \"$LLMDBENCH_CICD_PRIORITY_CLASS\" on scenario \"$LLMDBENCH_CICD_SCENARIO\""
             for i in vllm decode prefill; do
