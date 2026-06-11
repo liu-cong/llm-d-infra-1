@@ -642,6 +642,7 @@ jobs:
           if [[ $LLMDBENCH_CICD_METHOD == "kustomize" ]]; then
             export LLMDBENCH_CICD_EFFECTIVE_GUIDE_NAME=$(echo $LLMDBENCH_CICD_SCENARIO | sed 's#/$##')
             export LLMDBENCH_CICD_SCENARIO_GUIDE_FILE=~/work/llm-d-benchmark/llm-d-benchmark/config/scenarios/$LLMDBENCH_CICD_SCENARIO_DIR/$LLMDBENCH_CICD_SCENARIO.yaml
+            env | grep ^LLMDBENCH_CICD_SCENARIO_GUIDE_FILE
             echo "### Setting \"INFRA_PROVIDER\" to \"$LLMDBENCH_CICD_INFRA_PROVIDER\" in \"$LLMDBENCH_CICD_SCENARIO_GUIDE_FILE\""
             lkcmd="yq -i \".scenario[0].kustomize.guideVariableOverrides.INFRA_PROVIDER = \\\"$LLMDBENCH_CICD_INFRA_PROVIDER\\\"\" $LLMDBENCH_CICD_SCENARIO_GUIDE_FILE"
             echo -n "$lkcmd" > ~/work/lkcmd.txt
