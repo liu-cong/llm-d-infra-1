@@ -44,7 +44,7 @@ on:
         type: 'string'
         default: 'base'
       offloading_target:
-        description: 'Which component should be used to hous offloaded blocks ("cpu","memory", default is ""')
+        description: 'Which component should be used to hous offloaded blocks ("cpu","memory", default is "")'
         required: false
         type: 'string'
         default: ''        
